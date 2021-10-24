@@ -8,7 +8,7 @@
 int main()
 {
     Hash hash1;
-
+    Hash hash2;
 
     return 0;
 }
