@@ -9,9 +9,10 @@ int main()
 {
     Hash hash1;
     Hash hash2;
-    Hash hash 3;
+    Hash hash3;
 
     cout<<"new changes"<<endl;
+    cout<<"header now in"<<endl;
 
     return 0;
 }
