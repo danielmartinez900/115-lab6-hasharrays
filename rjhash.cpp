@@ -48,8 +48,8 @@ public:
 		}
 		else 
 		{
-			while (hasharray[key].freq != 0 && hasharray[key].word != key)    //linear probing
-			{
+			while (hasharray[key].freq != 0 && hasharray[key].word != str)    //linear probing
+			{                                                                 //should be key instead of str
 				key++;
 				probe++;
 			}
