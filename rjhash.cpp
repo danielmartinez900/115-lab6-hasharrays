@@ -1,12 +1,11 @@
 #include<iostream>
 #include<fstream>
 #include<string>
-using namespace std;
 
 const int HASHSIZE = 4001;
 struct entry
 {
-	string word;
+	std::string word;
 	int freq;
 };
 
@@ -26,11 +25,11 @@ public:
 	{
 		return probe;
 	}
-	int hashkey(string str)
+	int hashkey(std::string str)
 	{
 		std::hash<std::string>()(str);    //built in hash function
 	}
-	void update(string str)
+	void update(std::string str)
 	{
 		int key = hashkey(str);   //find hashkey of the input string
 		size = 0;
@@ -73,9 +72,9 @@ public:
 int main()
 {
 	Hash hash1;
-	string randj;
-	string word, filename;
-	fstream myfile;
+	std::string randj;
+	std::string word, filename;
+	std::fstream myfile;
 	filename = "RomeoAndJuliet.txt";
 	myfile.open(filename.c_str());
 	while (myfile >> word)      //read the file word by word
@@ -83,8 +82,8 @@ int main()
 		hash1.update(word);   //update the hasharray with the word that was just read
 	}
 
-	cout << "number of unique words: " << hash1.updates << endl;
-	cout << "cost: " << hash1.cost;
+	std::cout << "number of unique words: " << hash1.updates << std::endl;
+	std::cout << "cost: " << hash1.cost;
 
 
 	return 0;
