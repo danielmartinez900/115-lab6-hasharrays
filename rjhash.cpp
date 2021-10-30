@@ -5,22 +5,25 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::fstream;
-
+using std::default_delete;
+using std::hash;
 const int HASHSIZE = 4001;
+
 struct entry
 {
 	string word;
-	int freq;
+	int freq = 0;           //initalize freq to 0 for all keys
 };
 
 class Hash
 {
 public:
 	entry hasharray[HASHSIZE];
-	int updates[HASHSIZE];
-	int cost[HASHSIZE];
+	int updates[HASHSIZE] = {};     //initalize both arrays to 0
+	int cost[HASHSIZE] = {};
 	int size, probe, num = 0;
-	Hash() { hasharray; }
+	Hash() { hasharray; size, probe, num; updates; cost; }
+	~Hash() { delete hasharray; }
 	int getsize()
 	{
 		return size;
@@ -31,13 +34,15 @@ public:
 	}
 	int hashkey(string str)
 	{
-		std::hash<string>()(str);    //built in hash function
+		int hk = hash<string>()(str) % HASHSIZE;    //built in hash function
+		return hk;
 	}
 	void update(string str)
 	{
 		int key = hashkey(str);   //find hashkey of the input string
-		size = 0;
-		probe = 0;				  //initalize probe to 0
+		probe = 0;
+		num = 0;
+		size = 0;				  //initalize all stats ints to 0
 		if (hasharray[key].freq == 0)   //not present
 		{
 			hasharray[key].freq++;
@@ -52,7 +57,7 @@ public:
 		else 
 		{
 			while (hasharray[key].freq != 0 && hasharray[key].word != str)    //linear probing
-			{                                                                 //should be key instead of str
+			{                                                                 
 				key++;
 				probe++;
 			}
@@ -63,6 +68,7 @@ public:
 			else
 			{
 				hasharray[key].word = str;
+				hasharray[key].freq++;
 				size++; num++; probe++;
 			}
 		}
@@ -72,6 +78,14 @@ public:
 	}
 	
 };
+
+void print(int a[], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << a[i] << endl;
+	}
+}
 
 int main()
 {
@@ -83,11 +97,11 @@ int main()
 	myfile.open(filename.c_str());
 	while (myfile >> word)      //read the file word by word
 	{
-		hash1.update(word);   //update the hasharray with the word that was just read
+		hash1.update(word);     //update the hasharray with the word that was just read
 	}
 
-	cout << "number of unique words: " << hash1.updates << endl;
-	cout << "cost: " << hash1.cost;
+	cout << "number of unique words: "; print(hash1.updates, HASHSIZE); cout<<endl;
+	cout << "cost: "; print(hash1.cost, HASHSIZE); cout << endl;
 
 
 	return 0;
